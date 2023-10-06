@@ -5,9 +5,9 @@ from datetime import datetime
 class PostList(ListView):
 
     model = Post
-    ordering = 'name'
+    ordering = ['name']
     template_name = 'flatpages/post.html'
-    context_object_name = 'post'
+    context_object_name = 'posts'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -18,5 +18,9 @@ class PostList(ListView):
 class PostDetail(DetailView):
 
     model = Post
-    template_name = 'flatpages/post.html'
-    context_object_name = 'post'
+    template_name = 'flatpages/post_detail.html'
+    context_object_name = 'posts'
+
+    def post_detail(request, post_id):
+        post = get_object_or_404(Post, pk=post_id)
+        return render(request, 'post_detail.html', {'post': post})

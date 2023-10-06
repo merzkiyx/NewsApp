@@ -1,37 +1,29 @@
-
 {% extends 'flatpages/default.html' %}
+
+{% load custom_filters %}
 
 {% block title %}
 Post
 {% endblock title %}
 
 {% block content %}
-   <h1>Все новости({{post|length}})</h1>
-    <h3>{{ time_now|date:'M d Y' }}</h3>
-    <h3> {{ next_news|default_if_none:"Скоро будет много интересных новостей!" }} </h3>
+   <h1>Все новости ({{ posts|length }})</h1>
+   <h3>{{ time_now|date:'d.m.Y' }}</h3>
+   <h3>{{ next_news|default:"Скоро будет много интересных новостей!" }}</h3>
    <hr>
-   {% if post %}
-       <table>
-           <tr>
-               <td>Название</td>
-               <td>Содержание</td>
-               <td>Категория</td>
-               <td>Автор</td>
-               <td>Дата</td>
-           </tr>
-
-           {% for post in post %}
-           <tr>
-               <td>{{ post.name|truncatewords:4 }}</td>
-               <td>{{ post.content|truncatewords:2 }}</td>
-               <td>{{ post.category.name }}</td>
-               <td>{{ post.author|truncatechars:15 }}</td>
-               <td>{{ post.pub_date }}</td>
-           </tr>
+   {% if posts %}
+       <ul>
+           {% for post in posts %}
+           <li>
+               <h2>{{ post.name | censor }}</h2>
+               <p>Дата публикации: {{ post.pub_date|date:'d.m.Y' }}</p>
+               <p>{{ post.content|truncatewords:20| safe | censor }}</p>
+               <p>Автор: {{ post.author}}</p>
+               <a href="/post/{{ post.id }}">Читать далее</a>
+           </li>
            {% endfor %}
-
-       </table>
+       </ul>
    {% else %}
-       <h2>Новостей нет!</h2>
+       <h2>Новости не найдены!</h2>
    {% endif %}
-{% endblock content %}ck content %}
+{% endblock content %}

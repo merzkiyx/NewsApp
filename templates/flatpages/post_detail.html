@@ -1,0 +1,14 @@
+{% extends 'flatpages/default.html' %}
+
+{% load custom_filters %}
+
+{% block title %}
+Детальная информация о посте
+{% endblock title %}
+
+{% block content %}
+   <h1>{{ posts.name | censor }}</h1>
+   <p>Дата публикации: {{ posts.pub_date|date:'d.m.Y' }}</p>
+   <p>{{ posts.content|safe | censor}}</p>
+   <a href="/post/{{ post }}">Назад к списку постов</a>
+{% endblock content %}
