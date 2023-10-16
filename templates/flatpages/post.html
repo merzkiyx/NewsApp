@@ -10,9 +10,9 @@ Post
 {% block content %}
 
    <h1>Все новости</h1>
-   <form action="" method="get">
-       {{ filterset.form.as_p }}
-       <input type="submit" value="Найти" />
+   <form action="{% url 'post_search' %}" method="get">
+
+       <input type="submit" value="Поиск новости" />
    </form>
    {% if posts %}
        <ul>
