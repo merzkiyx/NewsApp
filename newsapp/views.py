@@ -40,16 +40,22 @@ class PostCreate(CreateView):
     form_class = PostForm
     model = Post
     template_name = 'flatpages/post_edit.html'
-
+    def form_valid(self, form):
+        news = form.save(commit=False)
+        news.post_type = 'NW'
+        news.save()
+        return super().form_valid(form)
 class PostUpdate(UpdateView):
     form_class = PostForm
     model = Post
     template_name = 'flatpages/post_edit.html'
 
+
 class PostDelete(DeleteView):
     model = Post
     template_name = 'flatpages/post_delete.html'
     success_url = reverse_lazy('post_list')
+
 
 class PostSearch(ListView):
     model = Post
@@ -73,3 +79,20 @@ class ArticlesCreate(CreateView):
     model = Post
     template_name = 'flatpages/articles_edit.html'
 
+    def form_valid(self, form):
+        news = form.save(commit=False)
+        news.post_type = 'AR'
+        news.save()
+        return super().form_valid(form)
+
+class ArticlesUpdate(UpdateView):
+    form_class = PostForm
+    model = Post
+    template_name = 'flatpages/post_edit.html'
+
+
+
+class ArticlesDelete(DeleteView):
+    model = Post
+    template_name = 'flatpages/articles_delete.html'
+    success_url = reverse_lazy('post_list')

@@ -12,7 +12,6 @@ class PostForm(forms.ModelForm):
             'content',
             'author',
             'category',
-            'post_type'
         ]
 
     def clean(self):
