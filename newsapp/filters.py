@@ -6,8 +6,9 @@ from django import forms
 
 class PostFilter(FilterSet):
     min_pub_date = DateFilter(
-        widget=forms.TextInput(attrs={'type': 'date'}),
-        field_name='pub_date'
+        widget=forms.DateInput(attrs={'type': 'date'}),
+        field_name='pub_date',
+        lookup_expr='date__gte'
     )
 
     class Meta:

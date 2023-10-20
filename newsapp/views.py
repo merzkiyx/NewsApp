@@ -67,3 +67,9 @@ class PostSearch(ListView):
         context['filterset'] = self.filterset
         return context
 
+
+class ArticlesCreate(CreateView):
+    form_class = PostForm
+    model = Post
+    template_name = 'flatpages/articles_edit.html'
+

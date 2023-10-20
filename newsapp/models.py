@@ -3,21 +3,18 @@ from django.core.validators import MinValueValidator
 from django.urls import reverse
 
 class Post(models.Model):
-    name = models.CharField(
-        max_length=50,
-        unique=True,
-    )
-    author = models.CharField(
-        max_length=100,
-    )
+    ARTICLE = "AR"
+    NEWS = "NW"
+    TYPE_CHOICES = [
+        (ARTICLE, 'Статья'),
+        (NEWS, 'Новость'),
+    ]
+    name = models.CharField(max_length=50, unique=True)
+    author = models.CharField(max_length=100)
     content = models.TextField()
-
-    category = models.ForeignKey(
-        to='Category',
-        on_delete=models.CASCADE,
-        related_name='post',
-    )
+    category = models.ForeignKey('Category', on_delete=models.CASCADE, related_name='posts')
     pub_date = models.DateTimeField(auto_now_add=True)
+    post_type = models.CharField(max_length=2, choices=TYPE_CHOICES)
 
     def __str__(self):
         return f'{self.name.title()}: {self.content[:20]}'
