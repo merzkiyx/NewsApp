@@ -6,6 +6,8 @@ from datetime import datetime
 from .filters import PostFilter
 from django.urls import reverse_lazy
 from .forms import PostForm
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import TemplateView
 
 class PostList(ListView):
     model = Post
@@ -45,7 +47,7 @@ class PostCreate(CreateView):
         news.post_type = 'NW'
         news.save()
         return super().form_valid(form)
-class PostUpdate(UpdateView):
+class PostUpdate(LoginRequiredMixin, UpdateView):
     form_class = PostForm
     model = Post
     template_name = 'flatpages/post_edit.html'
@@ -85,7 +87,7 @@ class ArticlesCreate(CreateView):
         news.save()
         return super().form_valid(form)
 
-class ArticlesUpdate(UpdateView):
+class ArticlesUpdate(LoginRequiredMixin, UpdateView):
     form_class = PostForm
     model = Post
     template_name = 'flatpages/post_edit.html'
