@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-1x)%#)oiy0dm8o=2qt7!qh8vu@lzdhz*zmpa__34s1wlb()k-!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = ['127.0.0.1']
 SITE_ID = 1
 
 INSTALLED_APPS = [
@@ -97,7 +97,8 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 LOGIN_URL = '/accounts/login/'
-# LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/'
+ACCOUNT_FORMS = {'signup': 'sign.models.BasicSignupForm'}
 
 WSGI_APPLICATION = 'NewsPaper.wsgi.application'
 
