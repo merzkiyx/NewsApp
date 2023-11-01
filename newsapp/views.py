@@ -8,6 +8,7 @@ from django.urls import reverse_lazy
 from .forms import PostForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView
+from django.contrib.auth.mixins import PermissionRequiredMixin
 
 class PostList(ListView):
     model = Post
@@ -38,7 +39,8 @@ class PostDetail(DetailView):
         post = get_object_or_404(Post, pk=post_id)
         return render(request, 'post_detail.html', {'post': post})
 
-class PostCreate(CreateView):
+class PostCreate(PermissionRequiredMixin, CreateView):
+    permission_required = ('news.add_post',)
     form_class = PostForm
     model = Post
     template_name = 'flatpages/post_edit.html'
@@ -47,7 +49,8 @@ class PostCreate(CreateView):
         news.post_type = 'NW'
         news.save()
         return super().form_valid(form)
-class PostUpdate(LoginRequiredMixin, UpdateView):
+class PostUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    permission_required = ('news.change_post',)
     form_class = PostForm
     model = Post
     template_name = 'flatpages/post_edit.html'
@@ -76,7 +79,7 @@ class PostSearch(ListView):
         return context
 
 
-class ArticlesCreate(CreateView):
+class ArticlesCreate(PermissionRequiredMixin, CreateView):
     form_class = PostForm
     model = Post
     template_name = 'flatpages/articles_edit.html'
@@ -87,7 +90,7 @@ class ArticlesCreate(CreateView):
         news.save()
         return super().form_valid(form)
 
-class ArticlesUpdate(LoginRequiredMixin, UpdateView):
+class ArticlesUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     form_class = PostForm
     model = Post
     template_name = 'flatpages/post_edit.html'
